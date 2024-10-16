@@ -7,6 +7,7 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import { UsersService } from 'src/users/users.service';
 import { join } from 'path';
 import { JwtService } from '@nestjs/jwt';
+import { SupabaseModule } from 'src/supabase/supabase.module';
 
 @Module({
   imports: [
@@ -33,6 +34,7 @@ import { JwtService } from '@nestjs/jwt';
         },
       },
     }),
+    SupabaseModule,
   ],
   controllers: [MailController],
   providers: [MailService, PrismaService, UsersService, JwtService],

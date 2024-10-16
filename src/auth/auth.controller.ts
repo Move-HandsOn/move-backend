@@ -3,11 +3,11 @@ import {
   Controller,
   Get,
   Headers,
+  HttpCode,
+  HttpStatus,
   Post,
-  Res,
   UseGuards,
 } from '@nestjs/common';
-import { Response } from 'express';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login-user.dto';
 import { RefreshTokenGuard } from './guards/jwt-refresh.guard';
@@ -33,16 +33,15 @@ export class AuthController {
     return this.authService.refreshAccess(user.email, user.refreshToken);
   }
 
+  @HttpCode(HttpStatus.NO_CONTENT)
   @Post('logout')
   async logout(
     @Headers('Authorization') userToken: string,
-    @Headers('refresh_token') refreshToken: string,
-    @Res() res: Response
+    @Headers('refresh_token') refreshToken: string
   ) {
     const tokenData = await this.authService.decryptToken(userToken);
 
     await this.authService.logout(tokenData.email, refreshToken);
-
-    res.end();
+    return;
   }
 }

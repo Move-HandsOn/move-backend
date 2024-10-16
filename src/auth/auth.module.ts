@@ -8,6 +8,7 @@ import { JwtStrategy } from './guards/strategies/jwt.strategy';
 import { PassportModule } from '@nestjs/passport';
 import { LocalStrategy } from './guards/strategies/local.strategy';
 import { JwtRefreshStrategy } from './guards/strategies/jwt-refresh.strategy';
+import { SupabaseModule } from 'src/supabase/supabase.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { JwtRefreshStrategy } from './guards/strategies/jwt-refresh.strategy';
       secret: process.env.JWT_SECRET,
       signOptions: { expiresIn: '2h' },
     }),
+    SupabaseModule,
   ],
   controllers: [AuthController],
   providers: [

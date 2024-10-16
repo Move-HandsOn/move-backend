@@ -1,5 +1,5 @@
 import { MailerService } from '@nestjs-modules/mailer';
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UsersService } from 'src/users/users.service';
 
@@ -14,10 +14,9 @@ export class MailService {
   async sendRecoverPasswordEmail(userMail: string) {
     const user = await this.usersService.findUserByEmail(userMail);
 
-    if (!user)
-      throw new NotFoundException(
-        'There is no registered user with this email.'
-      );
+    if (!user) {
+      return null;
+    }
 
     user.recoveryToken = this.jwtService.sign(
       {

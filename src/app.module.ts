@@ -7,6 +7,7 @@ import { JwtAuthGuard } from './auth/guards/jwt-auth.guard';
 import { APP_GUARD } from '@nestjs/core';
 import { ConfigModule } from '@nestjs/config';
 import { MailModule } from './mail/mail.module';
+import { SupabaseModule } from './supabase/supabase.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { MailModule } from './mail/mail.module';
     AuthModule,
     ConfigModule.forRoot({ envFilePath: '.env', isGlobal: true }),
     MailModule,
+    SupabaseModule,
   ],
   providers: [
     {

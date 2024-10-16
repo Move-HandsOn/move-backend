@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, NotFoundException, Post } from '@nestjs/common';
 import { MailService } from './mail.service';
 import { Public } from 'src/decorators/public.decorator';
 
@@ -11,7 +11,13 @@ export class MailController {
   async sendRecoverPasswordEmail(
     @Body('email') email: string
   ): Promise<{ message: string }> {
-    await this.mailService.sendRecoverPasswordEmail(email);
+    const emailSent = await this.mailService.sendRecoverPasswordEmail(email);
+
+    if (!emailSent)
+      throw new NotFoundException(
+        'There is no registered user with this email.'
+      );
+
     return {
       message: 'The password recovery email has been sent.',
     };
